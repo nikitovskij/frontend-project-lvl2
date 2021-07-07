@@ -7,7 +7,7 @@
     "gendiff": "bin/gendiff.js"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "scripts": {
     "test": "npx jest --bail"
@@ -24,6 +24,16 @@
   },
   "homepage": "https://github.com/nikitovskij/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^8.0.0"
+    "commander": "^8.0.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@jest/globals": "^27.0.6",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.3.6",
+    "jest": "^27.0.6",
+    "jest-cli": "^27.0.6"
   }
 }
