@@ -18,23 +18,28 @@ export default (filePath1, filePath2) => {
     ...new Set([...Object.keys(first), ...Object.keys(second)]),
   ]);
 
-  const result = keys.map((key) => {
-    if (_.has(first, key) && _.has(second, key)) {
-      if (first[key] === second[key]) {
-        return `    ${key}: ${first[key]}`;
+  const result = keys
+    .map((key) => {
+      const firstValue = first[key] ?? null;
+      const secondValue = second[key] ?? null;
+
+      if (_.has(first, key) && _.has(second, key)) {
+        if (firstValue === secondValue) {
+          return `    ${key}: ${firstValue}`;
+        }
+
+        if (firstValue !== secondValue) {
+          return `  - ${key}: ${firstValue}\n  + ${key}: ${secondValue}`;
+        }
       }
 
-      if (first[key] !== second[key]) {
-        return `  - ${key}: ${first[key]}\n  + ${key}: ${second[key]}`;
+      if (!_.has(first, key)) {
+        return `  + ${key}: ${secondValue}`;
       }
-    }
 
-    if (!_.has(first, key)) {
-      return `  + ${key}: ${second[key]}`;
-    }
+      return `  - ${key}: ${firstValue}`;
+    })
+    .join('\n');
 
-    return `  - ${key}: ${first[key]}`;
-  });
-
-  return `{\n${result.join('\n')}\n}`;
+  return `{\n${result}\n}`;
 };
