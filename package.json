@@ -1,0 +1,29 @@
+{
+  "name": "@hexlet/code",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Compares two configuration files and shows a difference.",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "test": "npx jest --bail"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikitovskij/frontend-project-lvl2.git"
+  },
+  "author": "nbaranovsky24@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikitovskij/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/nikitovskij/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^8.0.0"
+  }
+}
