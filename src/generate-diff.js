@@ -1,13 +1,13 @@
 import path from 'path';
 import * as fs from 'fs';
 import _ from 'lodash';
+import parser from './parsers.js';
 
 const parse = (filePath) => {
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Resource ${filePath} does not exist`);
-  }
+  const fileFormat = (file) => path.extname(file).substring(1);
+  const fileContent = fs.readFileSync(path.resolve(filePath), 'utf-8');
 
-  return JSON.parse(fs.readFileSync(path.resolve(filePath), 'utf-8'));
+  return parser(fileContent, fileFormat(filePath));
 };
 
 export default (filePath1, filePath2) => {

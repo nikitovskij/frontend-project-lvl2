@@ -25,6 +25,7 @@
   "homepage": "https://github.com/nikitovskij/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^8.0.0",
+    "js-yaml": "^3.14.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
