@@ -2,6 +2,7 @@ import path from 'path';
 import * as fs from 'fs';
 import _ from 'lodash';
 import parser from './parsers.js';
+import render from './formatters/index.js';
 
 const parse = (filePath) => {
   const fileFormat = (file) => path.extname(file).substring(1);
@@ -10,36 +11,35 @@ const parse = (filePath) => {
   return parser(fileContent, fileFormat(filePath));
 };
 
-export default (filePath1, filePath2) => {
-  const first = parse(filePath1);
-  const second = parse(filePath2);
+const makeNode = (key, type, children = null, oldValue = null, newValue = null) => ({
+  key, type, children, oldValue, newValue,
+});
 
+const buildTree = (dataFirst, dataSecond) => {
   const keys = _.sortBy([
-    ...new Set([...Object.keys(first), ...Object.keys(second)]),
+    ...new Set([...Object.keys(dataFirst), ...Object.keys(dataSecond)]),
   ]);
 
-  const result = keys
+  return keys
     .map((key) => {
-      const firstValue = first[key] ?? null;
-      const secondValue = second[key] ?? null;
-
-      if (_.has(first, key) && _.has(second, key)) {
-        if (firstValue === secondValue) {
-          return `    ${key}: ${firstValue}`;
-        }
-
-        if (firstValue !== secondValue) {
-          return `  - ${key}: ${firstValue}\n  + ${key}: ${secondValue}`;
-        }
+      if (!_.has(dataFirst, key)) {
+        return makeNode(key, 'new', null, null, dataSecond[key]);
       }
 
-      if (!_.has(first, key)) {
-        return `  + ${key}: ${secondValue}`;
+      if (!_.has(dataSecond, key)) {
+        return makeNode(key, 'deleted', null, dataFirst[key]);
       }
 
-      return `  - ${key}: ${firstValue}`;
-    })
-    .join('\n');
+      if (_.isPlainObject(dataFirst[key]) && _.isPlainObject(dataSecond[key])) {
+        return makeNode(key, 'nested', buildTree(dataFirst[key], dataSecond[key]));
+      }
 
-  return `{\n${result}\n}`;
+      if (!_.isEqual(dataFirst[key], dataSecond[key])) {
+        return makeNode(key, 'changed', null, dataFirst[key], dataSecond[key]);
+      }
+
+      return makeNode(key, 'unchanged', null, dataFirst[key]);
+    });
 };
+
+export default (filePath1, filePath2, format = 'stylish') => render(buildTree(parse(filePath1), parse(filePath2)), format);
