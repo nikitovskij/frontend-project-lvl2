@@ -16,4 +16,10 @@ describe('Difference generator', () => {
   test('Stylish: `yml` format', () => {
     expect(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'))).toEqual(readFile('stylish.txt'));
   });
+  test('Plain: `json` format', () => {
+    expect(gendiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain')).toEqual(readFile('plain.txt'));
+  });
+  test('Plain: `yml` format', () => {
+    expect(gendiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'), 'plain')).toEqual(readFile('plain.txt'));
+  });
 });

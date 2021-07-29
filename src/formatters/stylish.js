@@ -21,7 +21,7 @@ const format = (tree, depth = 0) => {
           `${indent(depth)}  - ${node.key}: ${stringify(node.oldValue, depth + 1)}`,
           `${indent(depth)}  + ${node.key}: ${stringify(node.newValue, depth + 1)}`,
         ].join('\n');
-      case 'new':
+      case 'added':
         return `${indent(depth)}  + ${node.key}: ${stringify(node.newValue, depth + 1)}`;
       case 'deleted':
         return `${indent(depth)}  - ${node.key}: ${stringify(node.oldValue, depth + 1)}`;

@@ -23,7 +23,7 @@ const buildTree = (dataFirst, dataSecond) => {
   return keys
     .map((key) => {
       if (!_.has(dataFirst, key)) {
-        return makeNode(key, 'new', null, null, dataSecond[key]);
+        return makeNode(key, 'added', null, null, dataSecond[key]);
       }
 
       if (!_.has(dataSecond, key)) {
